@@ -1,0 +1,143 @@
+create database imsdb;
+use imsdb;
+
+##### Creating Products table #####
+create table tbl_product(
+skuID varchar(20) primary key,
+skuName varchar(100),
+type varchar(50)
+);
+
+##### Creating Address table #####
+create table tbl_address(
+addressID varchar(30) primary key,
+country varchar(60) not null,
+city varchar(60),
+postalCode varchar(15) not null,
+addressLine1 varchar(200),
+addressLine2 varchar(200),
+last_update datetime default CURRENT_TIMESTAMP
+);
+## SAMPLE INSERT 
+insert into tbl_address values('C100','INDIA','DOMBIVLI','421202','12-Indus tower','M g Road',CURRENT_TIMESTAMP);
+
+
+##### Creating customer table #####
+create table tbl_customer(
+custID varchar(25) Primary key,
+custName varchar(50),
+mobileNo varchar(15),
+emailID varchar(50),
+cust_AddressID varchar(30),
+last_update datetime default CURRENT_TIMESTAMP,
+foreign key (cust_AddressID) references tbl_address(addressID) ON UPDATE CASCADE ON DELETE CASCADE
+);
+## SAMPLE INSERT
+insert into tbl_customer values('CUST100','Alpha traders','9786145987','alphaT@gmail.com','C100',CURRENT_TIMESTAMP);
+
+##### Creating supplier table #####
+create table tbl_supplier(
+supplierID varchar(25) Primary key,
+supplierName varchar(50),
+mobileNo varchar(15),
+emailID varchar(50),
+supplier_AddressID varchar(30),
+last_update datetime default CURRENT_TIMESTAMP,
+foreign key (supplier_AddressID) references tbl_address(addressID) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+##### Creating warehouse table #####
+create table tbl_warehouse(
+warehouseID varchar(25),
+sku_supplierID varchar(50),
+productID varchar(50),
+quantity int,
+warehouse_AddressID varchar(30),
+last_update datetime default CURRENT_TIMESTAMP,
+PRIMARY KEY(warehouseID, productID,sku_supplierID),
+foreign key (warehouse_AddressID) references tbl_address(addressID) ON UPDATE CASCADE ON DELETE CASCADE,
+foreign key (productID) references tbl_product(skuID) ON UPDATE CASCADE,
+foreign key (sku_supplierID) references tbl_supplier(supplierID) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+##### Creating order table #####
+create table tbl_order(
+orderID varchar(25),
+custID varchar(25),
+product_ID varchar(20),
+orderPriority varchar(25),
+orderStatus varchar(25),
+orderQuantity int,
+orderDate datetime,
+delivery_addressID varchar(30),
+primary key(orderID,custID,produc_ID),
+foreign key (custID) references tbl_customer(custID) ON UPDATE CASCADE,
+foreign key (produc_ID) references tbl_product(skuID) ON UPDATE CASCADE,
+foreign key (delivery_addressID) references tbl_address(addressID) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+
+##### Creating invoice table #####
+create table tbl_invoice(
+invoiceNo varchar(25),
+orderID varchar(25),
+custID varchar(25),
+invoiceType varchar(30),
+exciseDuty int,
+totalPrice int,
+invoiceDate date,
+dueDate date,
+invoiceStatus varchar(30),
+fulfilledBy varchar(255),
+primary key(invoiceNo),
+foreign key (custID) references tbl_customer(custID) ON UPDATE CASCADE,
+foreign key (orderID) references tbl_order(orderID) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+##### Creating payment table #####
+create table tbl_payment(
+paymentID varchar(40) not null,
+invoiceID varchar(25) not null,
+custID varchar(25) not null,
+paymentType varchar(40),
+paymentStatus varchar(40),
+Status_updateDate datetime,
+primary key(paymentID,invoiceID,custID),
+foreign key (custID) references tbl_customer(custID) ON UPDATE CASCADE,
+foreign key (invoiceID) references tbl_invoice(invoiceNo) ON UPDATE CASCADE
+);
+
+##### Creating consignment table #####
+create table tbl_consignment(
+consignmentID varchar(25),
+packageID varchar(20) not null,
+supplierID varchar(25),
+invoiceNo varchar(25),
+primary key(consignmentID,packageID),
+foreign key (invoiceNo) references tbl_invoice(invoiceNo) ON UPDATE CASCADE ON DELETE CASCADE,
+foreign key (supplierID) references tbl_supplier(supplierID) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+######## Creating tbl_transorter table ########
+create table tbl_transporter(
+transporterID varchar(20) primary key,
+transporterName varchar(100),
+last_update datetime default CURRENT_TIMESTAMP
+);
+
+##### Creating transportation table #####
+create table tbl_transportation(
+transporterID varchar(25),
+orderID varchar(25),
+packageID varchar(20) not null,
+pickupDate date,
+deliveryDate date,
+pickupAddressID varchar(30),
+deliveryAddressID varchar(30),
+primary key(transporterID,packageID,orderId),
+foreign key (transporterID) references tbl_transporter(transporterID) ON UPDATE CASCADE,
+foreign key (packageID) references tbl_consignment(packageID) ON UPDATE CASCADE ON DELETE CASCADE,
+foreign key (orderID) references tbl_order(orderID) ON UPDATE CASCADE,
+foreign key (pickupAddressID) references tbl_address(addressID) ON UPDATE CASCADE ON DELETE CASCADE,
+foreign key (deliveryAddressID) references tbl_address(addressID) ON UPDATE CASCADE ON DELETE CASCADE
+);
