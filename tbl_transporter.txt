@@ -1,0 +1,13 @@
+insert into tbl_transporter values('TRA0001','DHL',str_to_date('15-05-2019 06:00:20','%d-%m-%Y %H:%i:%s'));
+insert into tbl_transporter values('TRA0002','UPS',str_to_date('15-05-2019 06:00:20','%d-%m-%Y %H:%i:%s'));
+insert into tbl_transporter values('TRA0003','FedEx',str_to_date('15-05-2019 06:00:20','%d-%m-%Y %H:%i:%s'));
+insert into tbl_transporter values('TRA0004','Nippon Express',str_to_date('19-05-2019 03:00:20','%d-%m-%Y %H:%i:%s'));
+insert into tbl_transporter values('TRA0005','Gati Logistics',str_to_date('19-05-2019 03:00:20','%d-%m-%Y %H:%i:%s'));
+insert into tbl_transporter values('TRA0006','CSX',str_to_date('23-06-2019 03:00:20','%d-%m-%Y %H:%i:%s'));
+insert into tbl_transporter values('TRA0007','CEVA Logistics',str_to_date('24-06-2019 03:00:20','%d-%m-%Y %H:%i:%s'));
+insert into tbl_transporter values('TRA0008','Con-way',str_to_date('25-06-2019 03:00:20','%d-%m-%Y %H:%i:%s'));
+insert into tbl_transporter values('TRA0009','Panalpina',str_to_date('14-06-2019 03:00:20','%d-%m-%Y %H:%i:%s'));
+insert into tbl_transporter values('TRA0010','All Cargo logistics',str_to_date('14-06-2019 03:00:20','%d-%m-%Y %H:%i:%s'));
+insert into tbl_transporter values('TRA0011','TCL logistics',str_to_date('15-06-2019 03:00:20','%d-%m-%Y %H:%i:%s'));
+insert into tbl_transporter values('TRA0012','Mahindra logistics',str_to_date('16-06-2019 03:00:20','%d-%m-%Y %H:%i:%s'));
+insert into tbl_transporter values('TRA0013','Blue dart express',str_to_date('17-06-2019 03:00:20','%d-%m-%Y %H:%i:%s'));
